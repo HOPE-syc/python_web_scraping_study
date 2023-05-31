@@ -4,18 +4,19 @@ from search_funtions.book_search import book_search_function
 
 book = book_search_function("파이썬") 
 
+maximum = 0
+page = 1
+
 def get_page_count(keyword):
     base_url = "https://search.kyobobook.co.kr/search?keyword="
-    response = get(f"{base_url}{keyword}")
+    number_url = "&target=total&gbCode=TOT&page="f"{page}"
+    response = get(f"{base_url}{keyword}{number_url}")
 
     if response.status_code != 200:
         print("웹 사이트에 접근할 수 없습니다.")
     else:
-        soup = BeautifulSoup(response.text, "html.parser")
-        page_numbers = soup.find_all("div", class_="result_area")
-        for page_number in page_numbers:
-            page_count = page_number.find_all("div", class_="pagination")
-            print(page_count)
+        while 1:
+            page_
 
 book_number = get_page_count("파이썬")
 
