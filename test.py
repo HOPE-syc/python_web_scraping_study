@@ -2,7 +2,7 @@ from requests import get
 from bs4 import BeautifulSoup
 
 
-keyword = "next.js"
+keyword = "풍수전쟁"
 
 page = 1
 
@@ -17,12 +17,14 @@ else:
         number_url = "&target=total&gbCode=TOT&page="f"{page}"
         response = get(f"{base_url}{keyword}{number_url}")
         soup = BeautifulSoup(response.text, "html.parser")
-        book_info_first = soup.find_all("ul", class_="prod_list")
+        book_info_first = soup.find("ul", class_="prod_list")
         book_info = book_info_first.find_all("li", class_="prod_item", recursive=False)
-        print(len(book_info))
-        page = page+1
         if len(book_info) == 0:
             break
+        print(f"{base_url}{keyword}{number_url}")
+        page += 1
+
+
         
         
 
