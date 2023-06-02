@@ -2,23 +2,21 @@ from requests import get
 from bs4 import BeautifulSoup
 from search_funtions.book_search import book_search_function
 
-book = book_search_function("파이썬") 
+keyword = input("어떤 책을 찾으십니까?")
 
-maximum = 0
-page = 1
+book_search = book_search_function(keyword)
 
-def get_page_count(keyword):
-    base_url = "https://search.kyobobook.co.kr/search?keyword="
-    number_url = "&target=total&gbCode=TOT&page="f"{page}"
-    response = get(f"{base_url}{keyword}{number_url}")
+file = open(f"{keyword}.csv", "w", encoding="utf-8-sig")
+file.write("name,author,price,link\n")
 
-    if response.status_code != 200:
-        print("웹 사이트에 접근할 수 없습니다.")
-    else:
-        while 1:
-            page_
+for info in book_search:
+    book_name = info['book_name']
+    book_author = info['book_author']
+    book_price = info['book_price']
+    book_link = info['book_link']
 
-book_number = get_page_count("파이썬")
+    # 가격 정보를 따옴표로 감싸서 저장
+    file.write(f"\"{book_name}\",\"{book_author}\",\"{book_price}\",\"{book_link}\"\n")
 
-print(book_number)
+file.close()
 
