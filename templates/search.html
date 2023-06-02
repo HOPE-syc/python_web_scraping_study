@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>책 검색</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><strong>공부 및 실습용입니다</strong></li>
+      </ul>
+      <ul>
+        <li><a href="/" role="button">home</a></li>
+      </ul>
+    </nav>
+    <main class="container">
+      <h1>{{keyword}}에 대한 검색 결과</h1>
+      <table role="grid">
+        <thead>
+          <tr>
+            <th>책 이름</th>
+            <th>작가</th>
+            <th>가격</th>
+            <th>링크</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book_search in books_search %}
+          <tr>
+            <td>{{book_search.book_name}}</td>
+            <td>{{book_search.book_author}}</td>
+            <td>{{book_search.book_price}}</td>
+            <td>
+              <a href="{{book_search.book_link}}" target="_blank">바로가기</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="pagination justify-content-center">
+        {% if pagination.has_prev %}
+        <a
+          class="page-link"
+          href="{{ url_for('search_main', keyword=keyword, page=pagination.prev_page) }}"
+          >Previous</a
+        >
+        {% else %}
+        <span class="page-link disabled">Previous</span>
+        {% endif %} {% for page_num in pagination.pages %} {% if page_num %} {%
+        if page_num == pagination.page %}
+        <span class="page-link active">{{ page_num }}</span>
+        {% else %}
+        <a
+          class="page-link"
+          href="{{ url_for('search_main', keyword=keyword, page=page_num) }}"
+          >{{ page_num }}</a
+        >
+        {% endif %} {% else %}
+        <span class="page-link disabled">...</span>
+        {% endif %} {% endfor %} {% if pagination.has_next %}
+        <a
+          class="page-link"
+          href="{{ url_for('search_main', keyword=keyword, page=pagination.next_page) }}"
+          >Next</a
+        >
+        {% else %}
+        <span class="page-link disabled">Next</span>
+        {% endif %}
+      </div>
+    </main>
+  </body>
+</html>
